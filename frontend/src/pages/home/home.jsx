@@ -215,7 +215,7 @@ function Home() {
           </p>
           <p>Esta ação é irreversível.</p>
         </Modal>
-        <Table columns={columns} dataSource={usuarios} />
+        <Table columns={columns} dataSource={usuarios} pagination={{ pageSize: 10 }} />
       </Content>
     </Layout>
   );
