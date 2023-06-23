@@ -1,0 +1,23 @@
+.content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.layout {
+    height: 100vh;
+}
+
+.header {
+    padding-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.titlePage{
+    padding: 15px;
+}
+
+

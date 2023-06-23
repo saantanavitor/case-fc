@@ -1,0 +1,12 @@
+.loginPage {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.loginCard {
+    border: 2px solid #181818;
+    border-radius: 4px;
+    width: 500px;
+    padding: 20px;
+}
