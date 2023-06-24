@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import './home.css';
+import { CSVLink } from 'react-csv';
 
 function Home() {
   const { Header, Content } = Layout;
@@ -146,14 +147,14 @@ function Home() {
     },
     {
       title: 'Período de alteração',
-      dataIndex: 'modifiedAt',
-      key: 'modifiedAt',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
     },
     {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (_, record ) => (
+      render: (_, record) => (
         <Tag color={record.status === 'ativo' ? 'green' : 'volcano'} key={record.status}>
           {record.status === 'ativo' ? 'Ativo' : 'Inativo'}
           {console.log(record.status)}
@@ -170,11 +171,11 @@ function Home() {
             <Link to={`/editarusuario/${record.id}`}>
               <FormOutlined />
             </Link>
-              {record.status === 'inativo' ? (
-                <CheckCircleOutlined onClick={() => updateStatus(record.id)} />
-              ) : (
-                <DeleteOutlined onClick={() => updateStatus(record.id)} />
-              )}
+            {record.status === 'inativo' ? (
+              <CheckCircleOutlined onClick={() => updateStatus(record.id)} />
+            ) : (
+              <DeleteOutlined onClick={() => updateStatus(record.id)} />
+            )}
           </Space>
         );
       },
@@ -197,6 +198,15 @@ function Home() {
           <h1>Lista de usuários</h1>
         </div>
         <div className='botoesHome'>
+          <CSVLink separator={';'} data={usuarios} filename={'usuarios.csv'}>
+            <Button
+              type='primary'
+              size='large'
+              style={{ background: 'green', borderColor: 'white' }}
+            >
+              Exportar planilha
+            </Button>
+          </CSVLink>
           <Button onClick={addUsuario} type='primary' color='green-6' size='large'>
             Adicionar usuário
           </Button>
