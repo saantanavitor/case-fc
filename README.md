@@ -19,7 +19,7 @@ A Dashboard de Gerenciamento de Usuários é uma aplicação web que permite aos
 4. Em ambos os terminais, execute o comando `npm install` para instalar todas as dependências necessárias.
 5. Após isso, no terminal do frontend, execute o comando `npm run dev` para iniciar a aplicação.
 6. Já no backend, utilize o comando `npm start` para iniciar a aplicação.
-8. Acesse a dashboard através do seu navegador, digitando o endereço `http://localhost:3000`.
+8. Acesse a dashboard através do seu navegador, digitando o endereço `http://localhost:3001/`.
 
 ## Tecnologias Utilizadas
 
