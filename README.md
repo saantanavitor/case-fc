@@ -44,6 +44,3 @@ Insira aqui algumas capturas de tela da dashboard para ilustrar sua aparência e
 
 ![image](https://github.com/saantanavitor/case-fc/assets/115433447/2e34bf33-faa6-402a-a7bb-63dda8b45d04)
 
-## Licença
-
-Este projeto está licenciado sob a [Licença MIT].
