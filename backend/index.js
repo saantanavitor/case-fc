@@ -134,5 +134,5 @@ app.delete('/delete', async (req, res) => {
 })
 
 app.listen(3000, () => {
-  connection.sync();
+  connection.sync({ force: true });
   console.log("Servidor rodando em http://localhost:3000/")});
