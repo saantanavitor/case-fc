@@ -1,23 +1,35 @@
 import { useSignOut } from 'react-auth-kit';
 import { useNavigate, Link } from 'react-router-dom';
-import { Space, Table, Tag, Button, Modal, Layout } from 'antd';
+import { Space, Table, Input, Tag, Button, Modal, Layout } from 'antd';
 import {
   DeleteOutlined,
   FormOutlined,
-  CloseCircleOutlined,
   CheckCircleOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { useEffect, useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import './home.css';
 import { CSVLink } from 'react-csv';
+import { format } from 'date-fns';
 
 function Home() {
   const { Header, Content } = Layout;
-
   const [usuarios, setUsuarios] = useState([]);
   const [idUsuario, setIdUsuario] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+
+  const singOut = useSignOut();
+  const navigate = useNavigate();
+
+  const logoutClick = () => {
+    singOut();
+    navigate('/login');
+  };
 
   useEffect(() => {
     initializeTable();
@@ -27,7 +39,6 @@ function Home() {
     axios
       .get('http://localhost:3000/usuarios')
       .then((response) => {
-        console.log('response', response.data);
         setUsuarios(response.data);
       })
       .catch((error) => {
@@ -66,13 +77,12 @@ function Home() {
 
   async function deleteAll() {
     try {
+      navigate(0);
       await axios.delete('http://localhost:3000/delete');
     } catch (error) {
       console.log(error);
     }
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -87,17 +97,78 @@ function Home() {
     setIsModalOpen(false);
   };
 
-  const singOut = useSignOut();
-  const navigate = useNavigate();
-
-  const logoutClick = () => {
-    singOut();
-    navigate('/login');
-  };
-
   const addUsuario = () => {
     navigate('/novousuario');
   };
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Pesquisar`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type='primary'
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size='small'
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size='small'
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) => text,
+  });
 
   const columns = [
     {
@@ -109,6 +180,7 @@ function Home() {
       title: 'Nome',
       dataIndex: 'nome',
       key: 'nome',
+      ...getColumnSearchProps('nome'),
     },
     {
       title: 'Login',
@@ -129,11 +201,14 @@ function Home() {
       title: 'CPF',
       dataIndex: 'cpf',
       key: 'cpf',
+      ...getColumnSearchProps('cpf'),
     },
     {
       title: 'Data de Nascimento',
       dataIndex: 'dataNascimento',
-      key: 'dataNasc',
+      key: 'dataNascimento',
+      ...getColumnSearchProps('dataNascimento'),
+      render: (_, record) => format(new Date(record.dataNascimento), 'yyyy-MM-dd'),
     },
     {
       title: 'Nome da mãe',
@@ -144,20 +219,24 @@ function Home() {
       title: 'Período de inserção',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      ...getColumnSearchProps('createdAt'),
+      render: (_, record) => format(new Date(record.createdAt), 'yyyy-MM-dd'),
     },
     {
       title: 'Período de alteração',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      ...getColumnSearchProps('updatedAt'),
+      render: (_, record) => format(new Date(record.updatedAt), 'yyyy-MM-dd'),
     },
     {
       title: 'Status',
-      key: 'status',
       dataIndex: 'status',
+      key: 'status',
+      ...getColumnSearchProps('status'),
       render: (_, record) => (
         <Tag color={record.status === 'ativo' ? 'green' : 'volcano'} key={record.status}>
           {record.status === 'ativo' ? 'Ativo' : 'Inativo'}
-          {console.log(record.status)}
         </Tag>
       ),
     },
@@ -165,7 +244,6 @@ function Home() {
       title: 'Ações',
       key: 'acoes',
       render: (_, record) => {
-        console.log('record', record);
         return (
           <Space size='middle'>
             <Link to={`/editarusuario/${record.id}`}>
@@ -218,14 +296,18 @@ function Home() {
           title='Excluir todos os usuários'
           open={isModalOpen}
           onOk={handleOk}
+          okText='Deletar'
+          okType='primary'
+          okButtonProps={{ danger: true }}
           onCancel={handleCancel}
+          cancelText='Cancelar'
         >
           <p>
             Tem certeza de que deseja <b>excluir todos os usuários</b>?
           </p>
           <p>Esta ação é irreversível.</p>
         </Modal>
-        <Table columns={columns} dataSource={usuarios} pagination={{ pageSize: 10 }} />
+        <Table columns={columns} dataSource={usuarios} pagination={{ pageSize: 10 }} rowKey='id' />
       </Content>
     </Layout>
   );

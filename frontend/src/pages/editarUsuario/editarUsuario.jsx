@@ -26,7 +26,6 @@ function EditarUsuario() {
     axios
       .get(`http://localhost:3000/usuarios/${id}`)
       .then((response) => {
-        console.log('response', response.data);
         setUsuario(response.data);
       })
       .catch((error) => {
@@ -36,7 +35,6 @@ function EditarUsuario() {
 
   const onFinish = async (data) => {
     try {
-      console.log(data);
       const atualizar = await axios.put(`http://localhost:3000/usuarios/${id}`, data);
       if (atualizar) {
         toast.success('Usuário atualizado com sucesso!', {
@@ -188,13 +186,15 @@ function EditarUsuario() {
                         <Button onClick={onClickBack} size='large' type='default'>
                           Voltar
                         </Button>
-                        <Button onClick={onFinish} size='large' type='primary' htmlType='submit'>
+                        <Button size='large' type='primary' htmlType='submit'>
                           Finalizar edição
                         </Button>
                       </div>
                     </Form.Item>
                   </Form>
-                ): ("Loading...")}
+                ) : (
+                  'Loading...'
+                )}
               </Col>
             </Row>
           </div>

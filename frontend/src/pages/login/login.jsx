@@ -56,11 +56,7 @@ function Login() {
         progress: undefined,
         theme: 'dark',
       });
-      console.log(err);
     }
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -68,46 +64,45 @@ function Login() {
       <Content className='content'>
         <div className='loginPage'>
           <div className='loginCard'>
-          <Form
-            name='basic'
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete='off'
-          >
-            <Form.Item
-              label='Login'
-              name='login'
-              rules={[{ required: true, message: 'Por favor, insira o login corretamente' }]}
+            <Form
+              name='basic'
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              autoComplete='off'
             >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='Senha'
-              name='senha'
-              rules={[
-                {
-                  required: true,
-                  message: 'Por favor, insira a senha corretamente',
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item
+                label='Login'
+                name='login'
+                rules={[{ required: true, message: 'Por favor, insira o login corretamente' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label='Senha'
+                name='senha'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Por favor, insira a senha corretamente',
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 20,
-                span: 16,
-              }}
-            >
-              <Button type='primary' htmlType='submit'>
-                Login
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item
+                wrapperCol={{
+                  offset: 20,
+                  span: 16,
+                }}
+              >
+                <Button type='primary' htmlType='submit'>
+                  Login
+                </Button>
+              </Form.Item>
+            </Form>
           </div>
-          </div>
+        </div>
       </Content>
     </Layout>
   );
