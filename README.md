@@ -34,13 +34,14 @@ A Dashboard de Gerenciamento de Usuários é uma aplicação web que permite aos
 
 Insira aqui algumas capturas de tela da dashboard para ilustrar sua aparência e funcionalidades. Por exemplo:
 
-![image](https://github.com/saantanavitor/case-fc/assets/115433447/921cca57-e42c-4f95-90cf-b6a46e62e9f7)
+![login](https://github.com/saantanavitor/case-fc/assets/115433447/f7566ac7-fda3-4328-b41c-680da092a4ce)
 
-![image](https://github.com/saantanavitor/case-fc/assets/115433447/769aecd0-9f97-471b-b2e6-750e24589546)
+![home](https://github.com/saantanavitor/case-fc/assets/115433447/b490a80f-a932-4dba-9507-e91901d0c100)
 
-![image](https://github.com/saantanavitor/case-fc/assets/115433447/ae750f74-9e2a-4dc0-a19c-6a46446acfa7)
+![cadastro](https://github.com/saantanavitor/case-fc/assets/115433447/4441543a-9be2-4924-a218-faa2114bc22d)
 
-![image](https://github.com/saantanavitor/case-fc/assets/115433447/a37fd669-24b3-4341-9ef4-330ba6e2a7e9)
+![edit-usuario](https://github.com/saantanavitor/case-fc/assets/115433447/593181ae-4f77-4b06-9d7d-3977feb3ab4c)
 
-![image](https://github.com/saantanavitor/case-fc/assets/115433447/2e34bf33-faa6-402a-a7bb-63dda8b45d04)
+![modal-delete](https://github.com/saantanavitor/case-fc/assets/115433447/aeeedebd-d9df-41e2-b013-a9dc7943b509)
+
 
